@@ -59,18 +59,18 @@ DEVICE="REDMI NOTE 10 PRO & PRO MAX (MIUI)"
 KERNEL_NAME="SLEEPY_KERNEL-MIUI"
 CODENAME="SWEET"
 # revert commit
-git revert 01b919e958a99c9d75d852d5ee0fe88e7e07c609 --no-edit
+git revert 87b02344b6ffb053fdaadee8b5649d9377b9d47e --no-edit
 else
 DEVICE="REDMI NOTE 10 PRO & PRO MAX (OSS)"
 KERNEL_NAME="SLEEPY_KERNEL-OSS"
 CODENAME="SWEET"
 # cherry pick commit
-git cherry-pick 01b919e958a99c9d75d852d5ee0fe88e7e07c609
+git cherry-pick 87b02344b6ffb053fdaadee8b5649d9377b9d47e
 git cherry-pick --skip
 fi
 
 # Kernel build release tag
-KRNL_REL_TAG="REBORN"
+KRNL_REL_TAG="BLACKADAM"
 
 DEFCONFIG="sweet_defconfig"
 
@@ -181,7 +181,7 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
 
         if [ -f "$IMG" ]; then
                 echo -e "$green << cloning AnyKernel from your repo >> \n $white"
-                git clone "$AnyKernel" --single-branch -b "$AnyKernelbranch" zip
+                git clone --depth=1 "$AnyKernel" --single-branch -b "$AnyKernelbranch" zip
                 echo -e "$yellow << making kernel zip >> \n $white"
                 cp -r "$IMG" zip/
                 cp -r "$dtbo" zip/
