@@ -70,7 +70,7 @@ git cherry-pick --skip
 fi
 
 # Kernel build release tag
-KRNL_REL_TAG="BLACKADAM"
+KRNL_REL_TAG="BLACKPANTHER"
 
 DEFCONFIG="sweet_defconfig"
 
