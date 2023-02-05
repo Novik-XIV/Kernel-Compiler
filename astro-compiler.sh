@@ -51,38 +51,34 @@ if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
 # USEER = build user
 #
 
-export CHATID API_BOT MIUI
+export CHATID API_BOT ASTRO
 
-if [ "$MIUI" == yes  ];
-then
-DEVICE="REDMI NOTE 10 PRO & PRO MAX (MIUI)"
-KERNEL_NAME="SLEEPY_KERNEL-MIUI"
+
+# Kernel build config
+TYPE="MIUI"
+DEVICE="HMNote10PRO & PRO MAX (MIUI)"
+KERNEL_NAME="AstroBoy"
 CODENAME="SWEET"
-# revert commit
-git revert 87b02344b6ffb053fdaadee8b5649d9377b9d47e --no-edit
-else
-DEVICE="REDMI NOTE 10 PRO & PRO MAX (OSS)"
-KERNEL_NAME="SLEEPY_KERNEL-OSS"
-CODENAME="SWEET"
-# cherry pick commit
-git cherry-pick 87b02344b6ffb053fdaadee8b5649d9377b9d47e
-git cherry-pick --skip
-fi
-
-# Kernel build release tag
-KRNL_REL_TAG="BLACKPANTHER"
-
+KRNL_REL_TAG="SupeRSoniC"
 DEFCONFIG="sweet_defconfig"
-
-AnyKernel="https://github.com/shashank1439/AnyKernel3"
+AnyKernel="https://github.com/Novik-XIV/AnyKernel3"
 AnyKernelbranch="master"
-
-HOSST="sleeping-bag"
-USEER="shashank"
+HOSST="n-xiv"
+USEER="lek_novik-xiv"
+MESIN="Git Workflows"
 
 # setup telegram env
+export WAKTU=$(date +"%T")
+export TGL=$(date +"%d-%m-%Y")
 export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
 export BOT_BUILD_URL="https://api.telegram.org/bot$API_BOT/sendDocument"
+
+
+tg_sticker() {
+   curl -s -X POST "https://api.telegram.org/bot$API_BOT/sendSticker" \
+        -d sticker="$1" \
+        -d chat_id=$CHATID
+}
 
 tg_post_msg() {
         curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
@@ -178,6 +174,19 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
                 rm -rf error.log
                 exit 1
         fi
+	
+	TEXT1="
+*Build Completed Successfully*
+* Device* : \`$DEVICE\`
+* Code name* : \`Sweet | Sweetin\`
+* Variant Build* : \`$TYPE\`
+* Time Build* : \`$(($Diff / 60)) menit\`
+* Branch Build* : \`$BRANCH\`
+* System Build* : \`$MESIN\`
+* Date Build* : \`$TGL\` \`$WAKTU\`
+* Last Commit* : \`$KOMIT\`
+* Author* : @Lek_N_XIV
+"
 
         if [ -f "$IMG" ]; then
                 echo -e "$green << cloning AnyKernel from your repo >> \n $white"
@@ -191,7 +200,8 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
                 zip -r9 "$ZIP" * -x .git README.md LICENSE *placeholder
                 curl -sLo zipsigner-3.0.jar https://gitlab.com/itsshashanksp/zipsigner/-/raw/master/bin/zipsigner-3.0-dexed.jar
                 java -jar zipsigner-3.0.jar "$ZIP".zip "$ZIP"-signed.zip
-                tg_post_msg "Kernel successfully compiled uploading ZIP" "$CHATID"
+		tg_sticker "CAACAgUAAxkBAAGLlS1jnv1FJAsPoU7-iyZf75TIIbD0MQACYQIAAvlQCFTxT3DFijW-FSwE"
+                tg_post_msg "$TEXT1" "$CHATID"
                 tg_post_build "$ZIP"-signed.zip "$CHATID"
                 tg_post_msg "done" "$CHATID"
                 cd ..
