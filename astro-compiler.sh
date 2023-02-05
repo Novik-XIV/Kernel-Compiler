@@ -51,7 +51,7 @@ if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
 # USEER = build user
 #
 
-export CHATID API_BOT ASTRO
+export CHATID API_BOT TYPE_KERNEL MIUI
 
 
 # Kernel build config
