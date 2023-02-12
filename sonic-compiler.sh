@@ -2,7 +2,7 @@
 #
 # Script For Building Android arm64 Kernel
 #
-# Copyright (C) 2021-2022 shashank1439 <9945shashank@gmail.com>
+# Copyright (C) 2021-2023 RooGhz720 <rooghz720@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,35 +37,24 @@ echo -e "$green << setup dirs >> \n $white"
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
 
-# Now u can chose which things need to be modified
-#
-# DEVICE = your device codename
-# KERNEL_NAME = the name of ur kranul
-#
-# DEFCONFIG = defconfig that will be used to compile the kernel
-#
-# AnyKernel = the url of your modified anykernel script
-# AnyKernelbranch = the branch of your modified anykernel script
-#
-# HOSST = build host
-# USEER = build user
-#
+# MIUI = High Dimens
+# OSS = Low Dimens
 
-export CHATID API_BOT TYPE_KERNEL MIUI
+export CHATID API_BOT TYPE_KERNEL
 
 
 # Kernel build config
 TYPE="MIUI"
-DEVICE="HMNote10PRO & PRO MAX (MIUI)"
-KERNEL_NAME="AstroBoy"
-CODENAME="SWEET"
-KRNL_REL_TAG="SupeRSoniC"
+DEVICE="HMNote10PRo"
+KERNEL_NAME="SupeRSoniC"
 DEFCONFIG="sweet_defconfig"
-AnyKernel="https://github.com/Novik-XIV/AnyKernel3"
+AnyKernel="https://github.com/Novik-XIV/Anykernel3"
 AnyKernelbranch="master"
-HOSST="n-xiv"
-USEER="lek_novik-xiv"
+HOSST="N-XIV"
+USEER="Novik-XIV"
+ID="SoniC"
 MESIN="Git Workflows"
+
 
 # setup telegram env
 export WAKTU=$(date +"%T")
@@ -82,7 +71,7 @@ tg_sticker() {
 
 tg_post_msg() {
         curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
-        -d "parse_mode=html" \
+        -d "parse_mode=markdown" \
         -d text="$1"
 }
 
@@ -94,8 +83,8 @@ tg_post_build() {
         curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
         -F chat_id="$2" \
         -F "disable_web_page_preview=true" \
-        -F "parse_mode=html" \
-        -F caption="$3 build finished in $(($Diff / 60)) minutes and $(($Diff % 60)) seconds | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"
+        -F "parse_mode=markdown" \
+        -F caption="$3 MD5 \`$MD5CHECK\`"
 }
 
 tg_error() {
@@ -108,37 +97,29 @@ tg_error() {
 
 # clang stuff
 		echo -e "$green << cloning clang >> \n $white"
-		git clone --depth=1 https://gitlab.com/PixelOS-Devices/playgroundtc -b 16 "$HOME"/clang
+		git clone --depth=1 https://gitlab.com/PixelOS-Devices/playgroundtc -b 17 "$HOME"/clang
 
 	export PATH="$HOME/clang/bin:$PATH"
-	export KBUILD_COMPILER_STRING=$("$HOME"/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+	export KBUILD_COMPILER_STRING=$("$HOME"/clang/bin/clang --version | head -n 1 | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')
 
 # Setup build process
 
-echo "_________________________________________________"
-echo "=                  SupeRSoniC                 ="
-echo "=             Powered by the PlayGround   	  ="
-echo "=---------------------------------------------- ="
-echo "=     > ARM64 Workflows exported                ="
-echo "=     > ARM32 Workflows exported                ="
-echo -e "=_______________________________________________="
-
 build_kernel() {
 Start=$(date +"%s")
-    make -j$(nproc) O=out ARCH=arm64 $DEFCONFIG
+        make -j$(nproc) O=out ARCH=arm64 $DEFCONFIG
 	make -j$(nproc --all) O=out \
                               ARCH=arm64 \
-                              CC=clang \
+                              LLVM=1 \
+                              LLVM_IAS=1 \
                               AR=llvm-ar \
                               NM=llvm-nm \
+                              LD=ld.lld \
                               OBJCOPY=llvm-objcopy \
                               OBJDUMP=llvm-objdump \
                               STRIP=llvm-strip \
-                              LD=ld.lld \
+                              CC=clang \
                               CROSS_COMPILE=aarch64-linux-gnu- \
-                              CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-                              LLVM=1 LLVM_IAS=1 \
-                              2>&1 | tee error.log
+                              CROSS_COMPILE_ARM32=arm-linux-gnueabi-  2>&1 | tee error.log
 
 End=$(date +"%s")
 Diff=$(($End - $Start))
@@ -152,6 +133,7 @@ export HEADER_ARCH=arm64
 
 export KBUILD_BUILD_HOST="$HOSST"
 export KBUILD_BUILD_USER="$USEER"
+export KBUILD_BUILD_VERSION="$ID"
 
 mkdir -p out
 
@@ -159,22 +141,27 @@ make O=out clean && make O=out mrproper
 make "$DEFCONFIG" O=out
 
 echo -e "$yellow << compiling the kernel >> \n $white"
-tg_post_msg "Successful triggered Compiling kernel for $DEVICE $CODENAME" "$CHATID"
+
+# stiker post
+
 
 build_kernel || error=true
 
 DATE=$(date +"%Y%m%d-%H%M%S")
 KERVER=$(make kernelversion)
+KOMIT=$(git log --pretty=format:'"%h : %s"' -1)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 export IMG="$MY_DIR"/out/arch/arm64/boot/Image.gz-dtb
 export dtbo="$MY_DIR"/out/arch/arm64/boot/dtbo.img
 export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
 
+
         if [ -f "$IMG" ]; then
-                echo -e "$green << Build completed in $(($Diff / 60)) minutes and $(($Diff % 60)) seconds >> \n $white"
+                echo -e "$green << selesai dalam $(($Diff / 60)) menit and $(($Diff % 60)) detik >> \n $white"
         else
-                echo -e "$red << Failed to compile the kernel , Check up to find the error >>$white"
-                tg_post_msg "Kernel failed to compile uploading error log"
+                echo -e "$red << Gagal dalam membangun kernel!!! , cek kembali kode anda >>$white"
+                tg_post_msg "GAGAL!!! uploading log"
                 tg_error "error.log" "$CHATID"
                 tg_post_msg "done" "$CHATID"
                 rm -rf out
@@ -182,9 +169,10 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
                 rm -rf error.log
                 exit 1
         fi
-	
-	TEXT1="
+
+TEXT1="
 *Build Completed Successfully*
+━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 * Device* : \`$DEVICE\`
 * Code name* : \`Sweet | Sweetin\`
 * Variant Build* : \`$TYPE\`
@@ -193,7 +181,8 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
 * System Build* : \`$MESIN\`
 * Date Build* : \`$TGL\` \`$WAKTU\`
 * Last Commit* : \`$KOMIT\`
-* Author* : @Lek_N_XIV
+* Author* : @RooGhz720
+━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 "
 
         if [ -f "$IMG" ]; then
@@ -204,14 +193,13 @@ export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
                 cp -r "$dtbo" zip/
                 cp -r "$dtb" zip/
                 cd zip
-                export ZIP="$KERNEL_NAME"-"$KRNL_REL_TAG"-"$CODENAME"
+                export ZIP="$KERNEL_NAME"-"$TYPE"-"$TGL"
                 zip -r9 "$ZIP" * -x .git README.md LICENSE *placeholder
-                curl -sLo zipsigner-3.0.jar https://gitlab.com/itsshashanksp/zipsigner/-/raw/master/bin/zipsigner-3.0-dexed.jar
+                curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
                 java -jar zipsigner-3.0.jar "$ZIP".zip "$ZIP"-signed.zip
-		tg_sticker "CAACAgUAAxkBAAGLlS1jnv1FJAsPoU7-iyZf75TIIbD0MQACYQIAAvlQCFTxT3DFijW-FSwE"
+                tg_sticker "CAACAgUAAxkBAAGLlS1jnv1FJAsPoU7-iyZf75TIIbD0MQACYQIAAvlQCFTxT3DFijW-FSwE"
                 tg_post_msg "$TEXT1" "$CHATID"
                 tg_post_build "$ZIP"-signed.zip "$CHATID"
-                tg_post_msg "done" "$CHATID"
                 cd ..
                 rm -rf error.log
                 rm -rf out
