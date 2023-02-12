@@ -152,9 +152,9 @@ KERVER=$(make kernelversion)
 KOMIT=$(git log --pretty=format:'"%h : %s"' -1)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-export IMG="$MY_DIR"/out/arch/arm64/boot/Image.gz-dtb
-export dtbo="$MY_DIR"/out/arch/arm64/boot/dtbo.img
-export dtb="$MY_DIR"/out/arch/arm64/boot/dtb.img
+export IMG="$(pwd)"/out/arch/arm64/boot/Image.gz
+export dtbo="$(pwd)"/out/arch/arm64/boot/dtbo.img
+export dtb="$(pwd)"/out/arch/arm64/boot/dtb.img
 
 
         if [ -f "$IMG" ]; then
