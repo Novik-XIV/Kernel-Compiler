@@ -4,7 +4,7 @@ on:
 
 env:
    CHATID: ${{ secrets.ID_CHANNEL }}
-   API_BOT: ${{ secrets.BOT-TOKEN }}
+   API_BOT: ${{ secrets.BOT_TOKEN }}
    TYPE_KERNEL: ${{ secrets.NOVIK }}
          
 jobs:
