@@ -50,10 +50,10 @@ KERNEL_NAME="SupeRSoniC"
 DEFCONFIG="sweet_defconfig"
 AnyKernel="https://github.com/Novik-XIV/Anykernel3"
 AnyKernelbranch="master"
-HOSST="N-XIV"
-USEER="Novik-XIV"
-ID="SoniC"
-MESIN="Git Workflows"
+HOSST="Lek_N_XIV"
+USEER="AniSa"
+ID="NA-26"
+MESIN="GitHub Workflows"
 
 
 # setup telegram env
@@ -172,17 +172,17 @@ export dtb="$(pwd)"/out/arch/arm64/boot/dtb.img
 
 TEXT1="
 *Build Completed Successfully*
-━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
+<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>
 * Device* : \`$DEVICE\`
-* Code name* : \`Sweet | Sweetin\`
+* Code name* : \`SWEET\`
 * Variant Build* : \`$TYPE\`
 * Time Build* : \`$(($Diff / 60)) menit\`
 * Branch Build* : \`$BRANCH\`
 * System Build* : \`$MESIN\`
 * Date Build* : \`$TGL\` \`$WAKTU\`
 * Last Commit* : \`$KOMIT\`
-* Author* : @RooGhz720
-━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
+* Author* : @Lek_N_XIV
+<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>
 "
 
         if [ -f "$IMG" ]; then
