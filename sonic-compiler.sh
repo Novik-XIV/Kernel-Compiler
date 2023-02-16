@@ -54,6 +54,7 @@ HOSST="Lek_N_XIV"
 USEER="AniSa"
 ID="NA-26"
 MESIN="GitHub Workflows"
+TG="@Lek_N_XIV"
 
 
 # setup telegram env
@@ -181,7 +182,7 @@ TEXT1="
 * System Build* : \`$MESIN\`
 * Date Build* : \`$TGL\` \`$WAKTU\`
 * Last Commit* : \`$KOMIT\`
-* Author* : @Lek_N_XIV
+* Author* : \`$TG\`
 <<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>
 "
 
