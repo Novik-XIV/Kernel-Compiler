@@ -22,5 +22,5 @@ jobs:
     - name: Starting For Building Your Kernel...
       run: |
            git clone --depth=1 https://github.com/Novik-XIV/AstroBoy-Sweet-Kernel -b AstroBoy
-           cp sonic-compiler.sh AstroBoy-Sweet-Kernel && cd AstroBoy-Sweet-Kernel
-           chmod +x sonic-compiler.sh && bash sonic-compiler.sh
+           cp astro-compiler.sh AstroBoy-Sweet-Kernel && cd AstroBoy-Sweet-Kernel
+           chmod +x astro-compiler.sh && bash astro-compiler.sh
