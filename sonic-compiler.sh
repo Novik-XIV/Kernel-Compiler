@@ -61,6 +61,7 @@ export WAKTU=$(date +"%T")
 export TGL=$(date +"%d-%m-%Y")
 export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
 export BOT_BUILD_URL="https://api.telegram.org/bot$API_BOT/sendDocument"
+export TAG=@Lek_N_XIV
 
 
 tg_sticker() {
@@ -181,7 +182,7 @@ TEXT1="
 * System Build* : \`$MESIN\`
 * Date Build* : \`$TGL\` \`$WAKTU\`
 * Last Commit* : \`$KOMIT\`
-* Author* : @Lek_N_XIV
+* Author* : \`$TAG\`
 <<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>
 "
 
