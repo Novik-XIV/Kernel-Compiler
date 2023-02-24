@@ -153,7 +153,7 @@ KERVER=$(make kernelversion)
 KOMIT=$(git log --pretty=format:'"%h : %s"' -1)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-export IMG="$(pwd)"/out/arch/arm64/boot/Image.gz
+export IMG="$(pwd)"/out/arch/arm64/boot/Image.gz-dtb
 export dtbo="$(pwd)"/out/arch/arm64/boot/dtbo.img
 export dtb="$(pwd)"/out/arch/arm64/boot/dtb.img
 
