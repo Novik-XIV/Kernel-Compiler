@@ -47,7 +47,7 @@ export CHATID API_BOT TYPE_KERNEL
 TYPE="MIUI"
 DEVICE="HMNote10PRo"
 KERNEL_NAME="SupeRSoniC"
-DEFCONFIG="sweet_defconfig"
+DEFCONFIG="sweet_user_defconfig"
 AnyKernel="https://github.com/Novik-XIV/Anykernel3"
 AnyKernelbranch="master"
 HOSST="Lek_N_XIV"
@@ -98,7 +98,7 @@ tg_error() {
 
 # clang stuff
 		echo -e "$green << cloning clang >> \n $white"
-		git clone --depth=1 https://gitlab.com/PixelOS-Devices/playgroundtc -b 17 "$HOME"/clang
+		git clone --depth=1 https://github.com/stormbreaker-project/stormbreaker-clang -b 15.x "$HOME"/clang
 
 	export PATH="$HOME/clang/bin:$PATH"
 	export KBUILD_COMPILER_STRING=$("$HOME"/clang/bin/clang --version | head -n 1 | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')
