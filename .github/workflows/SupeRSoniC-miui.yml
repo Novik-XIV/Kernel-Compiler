@@ -21,6 +21,6 @@ jobs:
            bash initialize
     - name: Starting For Building Your Kernel...
       run: |
-           git clone --depth=1 https://github.com/stormbreaker-project/kernel_xiaomi_sweet -b Random
+           git clone --depth=1 https://github.com/stormbreaker-project/kernel_xiaomi_sweet -b main
            cp sonic-compiler.sh kernel_xiaomi_sweet && cd kernel_xiaomi_sweet
            chmod +x sonic-compiler.sh && bash sonic-compiler.sh
