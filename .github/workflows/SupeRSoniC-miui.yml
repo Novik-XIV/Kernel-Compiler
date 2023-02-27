@@ -8,8 +8,10 @@ env:
    TYPE_KERNEL: ${{ secrets.NOVIK }}
          
 jobs:
-   build:
-    runs-on: ubuntu-20.04
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:jammy-20211029
 
     steps:
     - name: Setting Configurasi
