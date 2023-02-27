@@ -21,6 +21,6 @@ jobs:
            bash initialize
     - name: Starting For Building Your Kernel...
       run: |
-           git clone --depth=1 https://github.com/Novik-XIV/android_kernel_xiaomi_sm6150 -b 13.0
+           git clone --depth=1 https://github.com/Klozz/android_kernel_xiaomi_sm6150 -b lineage-20
            cp sonic-compiler.sh android_kernel_xiaomi_sm6150 && cd android_kernel_xiaomi_sm6150
            chmod +x sonic-compiler.sh && bash sonic-compiler.sh
