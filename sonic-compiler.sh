@@ -47,7 +47,7 @@ export CHATID API_BOT TYPE_KERNEL
 TYPE="MIUI"
 DEVICE="HMNote10PRo"
 KERNEL_NAME="SupeRSoniC"
-DEFCONFIG="sweet_defconfig"
+DEFCONFIG="sweet_user_defconfig"
 AnyKernel="https://github.com/Novik-XIV/Anykernel3"
 AnyKernelbranch="master"
 HOSST="Lek_N_XIV"
