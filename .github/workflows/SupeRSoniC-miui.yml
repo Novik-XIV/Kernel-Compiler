@@ -21,6 +21,6 @@ jobs:
            bash initialize
     - name: Starting For Building Your Kernel...
       run: |
-           git clone --depth=1 https://github.com/Novik-XIV/SupeRSoniC-Sweet-Kernel -b Sonic-13
-           cp sonic-compiler.sh SupeRSoniC-Sweet-Kernel && cd SupeRSoniC-Sweet-Kernel
+           git clone --depth=1 https://github.com/Novik-XIV/Xiaomi-Kernel-Sweet -b Sweet
+           cp sonic-compiler.sh Xiaomi-Kernel-Sweet && cd Xiaomi-Kernel-Sweet
            chmod +x sonic-compiler.sh && bash sonic-compiler.sh
