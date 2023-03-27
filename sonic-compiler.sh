@@ -96,13 +96,6 @@ tg_error() {
         -F caption="$3Failed to build , check <code>error.log</code>"
 }
 
-# clang stuff
-		echo -e "$green << cloning clang >> \n $white"
-		git clone --depth=1 https://gitlab.com/PixelOS-Devices/playgroundtc -b 17 "$HOME"/clang
-
-	export PATH="$HOME/clang/bin:$PATH"
-	export KBUILD_COMPILER_STRING=$("$HOME"/clang/bin/clang --version | head -n 1 | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' -e 's/^.*clang/clang/')
-
 # Setup build process
 
 build_kernel() {
@@ -110,15 +103,6 @@ Start=$(date +"%s")
         make -j$(nproc) O=out ARCH=arm64 $DEFCONFIG
 	make -j$(nproc --all) O=out \
                               ARCH=arm64 \
-                              LLVM=1 \
-                              LLVM_IAS=1 \
-                              AR=llvm-ar \
-                              NM=llvm-nm \
-                              LD=ld.lld \
-                              OBJCOPY=llvm-objcopy \
-                              OBJDUMP=llvm-objdump \
-                              STRIP=llvm-strip \
-                              CC=clang \
                               CROSS_COMPILE=aarch64-linux-gnu- \
                               CROSS_COMPILE_ARM32=arm-linux-gnueabi-  2>&1 | tee error.log
 
